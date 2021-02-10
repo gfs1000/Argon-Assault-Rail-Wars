@@ -4,31 +4,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
-public class Player : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    [Tooltip("In m/s")] [SerializeField] float speed = 25f;
+    
+    [Header("General")]
+    [Tooltip("In m/s")] [SerializeField] float ControlSpeed = 25f;
     [Tooltip("In m")] [SerializeField] float xRange = 15f;
     [Tooltip("In m")] [SerializeField] float yRange = 9f;
 
+    [Header("Screen-position based parameter")]
     [SerializeField] float positionPitchFactor =- 1.5f;
-    [SerializeField] float controlPitchFactor = -20f;
-
     [SerializeField] float positionYawFactor = 1.5f;
+
+    [Header("Control-throw based parameter")]
+    [SerializeField] float controlPitchFactor = -20f;
     [SerializeField] float controlRollFactor = -20f;
   
 
 
     float xThrow, yThrow;
-    void Start()
-    {
-        
-    }
+    bool isControlEnabled = true;
 
     // Update is called once per frame
     void Update()
     {
-        ProcessTranslation();
-        ProcessRotation();
+        if (isControlEnabled)
+        {
+            ProcessTranslation();
+            ProcessRotation();
+        }
+    }
+
+    void OnPlayerDeath()   //Called by string - reference
+    {
+        isControlEnabled = false;
     }
 
     private void ProcessRotation()
@@ -51,8 +60,8 @@ public class Player : MonoBehaviour
         xThrow = CrossPlatformInputManager.GetAxis("Horizontal");
         yThrow = CrossPlatformInputManager.GetAxis("Vertical");
 
-        float xOffset = xThrow * speed * Time.deltaTime;
-        float yOffset = yThrow * speed * Time.deltaTime;
+        float xOffset = xThrow * ControlSpeed * Time.deltaTime;
+        float yOffset = yThrow * ControlSpeed * Time.deltaTime;
         float rawXPos = transform.localPosition.x + xOffset;
         float clampedXPos = Mathf.Clamp(rawXPos, -xRange, xRange);
         float rawYPos = transform.localPosition.y + yOffset;

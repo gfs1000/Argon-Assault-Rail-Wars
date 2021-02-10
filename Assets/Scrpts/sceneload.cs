@@ -11,6 +11,16 @@ public class sceneload : MonoBehaviour
         Invoke("LoadFirstScene", 2f);
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        print("Player collided with something");
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        print("Player triggered sth");
+    }
+
     void LoadFirstScene()
     {
 
