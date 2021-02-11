@@ -7,7 +7,11 @@ public class MusiPlayer : MonoBehaviour
     // Start is called before the first frame update
     public void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        int numMusicPlayer = FindObjectsOfType<MusiPlayer>().Length;
+        if (numMusicPlayer > 1)
+            Destroy(gameObject);
+        else
+            DontDestroyOnLoad(gameObject);
     }
    
 }
