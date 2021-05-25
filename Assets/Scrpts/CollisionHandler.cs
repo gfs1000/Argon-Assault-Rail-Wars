@@ -7,20 +7,39 @@ public class CollisionHandler : MonoBehaviour
 {
     [Tooltip("In Seconds")] [SerializeField] float levelLoadDelay = 2f;
     [Tooltip("FX particle prefab on ship")] [SerializeField] GameObject deathFx;
+
+    
+    public GameObject GameOverUI;
     private void OnTriggerEnter(Collider other)
     {
         StartDeathSequence();
         deathFx.SetActive(true);
-        Invoke("ReloadScene",levelLoadDelay);
+        Invoke("gameOverActive", levelLoadDelay);
+        
     }
 
+    public void gameOverActive()
+    {
+        GameOverUI.SetActive(true);
+        Time.timeScale = 0f;
+
+    }
+
+    //Invoke("ReloadScene", levelLoadDelay);
     void StartDeathSequence()
     {  
         SendMessage("OnPlayerDeath");
     }
 
-    private void ReloadScene() // string referenced
+    public void ReloadScene() // string referenced
     {
         SceneManager.LoadScene(1);
+        Time.timeScale = 1f;
+    }
+
+    public void QuitGame()
+    {
+        Debug.Log("quitting game//////////");
+        Application.Quit();
     }
 }

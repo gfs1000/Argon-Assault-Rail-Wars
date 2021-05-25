@@ -6,13 +6,18 @@ using UnityEngine.UI;
 public class scoreBoard : MonoBehaviour
 {
    
-    int score;
+    public int score;
     Text scoreText;
+    
+    
+    
+    
 
     void Start()
     {
+        
         scoreText = GetComponent<Text>();
-        scoreText.text = score.ToString();
+        scoreText.text =score.ToString();
     }
 
     public void ScoreHit(int scoreIncrease)
@@ -20,5 +25,6 @@ public class scoreBoard : MonoBehaviour
         
         this.score = this.score + scoreIncrease;
         scoreText.text = this.score.ToString();
+       
     }    
 }
